@@ -160,14 +160,15 @@ public class CreateVis : MonoBehaviour {
             GameObject line = Instantiate(Resources.Load("Line")) as GameObject;
             line.name = "Line " + i.ToString();
             line.transform.parent = lines.transform;
-            line.transform.localPosition = new Vector3(0, (i * multiple / max) * 6.8f / paneHeight, 0); //0.68 is max height of bar, manual calculations suck, I know, sorry
-                                                                                                        //So here is what the heck is happening up there: 
-                                                                                                        // Consider the highest line required, it has to be placed higher than the tallest bar
-                                                                                                        // therefore, i*multiple/original_max, in the context of the highest bar,
-                                                                                                        // is greater than 1, 1 being the scale of the tallest bar
-                                                                                                        // the tallest bar is 6.8 in height, so scale it with that (a*6.8f)
-                                                                                                        // then adjust to size of pane, since pane is not scale 10
-                                                                                                        // basically, this code is garbage, and I should feel bad about it.
+            line.transform.localPosition = new Vector3(0, (i * multiple / max) * 6.8f / paneHeight, 0); 
+            //0.68 is max height of bar, manual calculations suck, I know, sorry
+            //So here is what the heck is happening up there: 
+            // Consider the highest line required, it has to be placed higher than the tallest bar
+            // therefore, i*multiple/original_max, in the context of the highest bar,
+            // is greater than 1, 1 being the scale of the tallest bar
+            // the tallest bar is 6.8 in height, so scale it with that (a*6.8f)
+            // then adjust to size of pane, since pane is not scale 10
+            // basically, this code is garbage, and I should feel bad about it.
 
             GameObject valueText = MakeLabel((i * multiple).ToString(), lineTexts);
             valueText.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
@@ -260,6 +261,7 @@ public class CreateVis : MonoBehaviour {
                 {
                     GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     cube.name = country.ToString() + "," + year.ToString();
+                    cube.tag = "Bar";
                     cube.GetComponent<MeshRenderer>().material = material;
                     float norm_Value = System.Convert.ToSingle(Input[country][year]);
                     float height = norm_Value * 6.8f; //6.8 = manually calculated width of entire vis

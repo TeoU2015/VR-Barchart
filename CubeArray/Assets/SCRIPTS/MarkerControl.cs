@@ -39,9 +39,13 @@ public class MarkerControl : MonoBehaviour {
         useHighlight = coll.gameObject.GetComponent<MeshRenderer>().material.shader == standard_S ? true : false;
         if (IsCollide)
         {
+            Debug.Log("we in here");
             coll.gameObject.GetComponent<MeshRenderer>().material.shader = useHighlight ? highlight_S : standard_S;
         }
+
         Debug.Log("clicked" + coll);
+        coll = null;
+        Debug.Log("Nothing should follow this: " + coll);
     }
 
     private void HandlePadUnclicked(object sender, ClickedEventArgs e)
@@ -84,21 +88,17 @@ public class MarkerControl : MonoBehaviour {
 
     private void OnTriggerStay(Collider collision)
     {
-        IsCollide = true;
+        
         if (collision.gameObject.tag == "Bar")
         { 
             coll = collision;
+            IsCollide = true;
         }
        
     }
     private void OnTriggerExit(Collider collision)
     {
         IsCollide = false;
-    }
-
-    void MarkBar()
-    {
-
     }
 
     void ChangeQuestionText()

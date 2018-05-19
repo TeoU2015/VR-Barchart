@@ -10,7 +10,6 @@ class Point {
 
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
-[RequireComponent(typeof(MeshCollider))]
 public class MeshLineRenderer : MonoBehaviour {
 	public Vector3 lastV;
 	public Material lmat;

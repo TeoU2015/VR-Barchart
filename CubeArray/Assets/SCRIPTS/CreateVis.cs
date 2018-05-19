@@ -129,6 +129,7 @@ public class CreateVis : MonoBehaviour {
             if (tick_height + 0.025f < norm_value * 6.8) //account for the extra height of the tick bar
             {
                 GameObject tick = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                Destroy(tick.GetComponent<BoxCollider>());
                 Transform tick_T = tick.transform;
                 tick.name = Bar.name + " tick_" + i.ToString();
                 tick_T.localScale = new Vector3(width + 0.01f, 0.05f, width + 0.01f);

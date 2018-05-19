@@ -5,26 +5,18 @@ using UnityEngine;
 public class MarkerControl : MonoBehaviour {
 
     private SteamVR_TrackedController _controller;
-    private PrimitiveType _currentPrimitiveType = PrimitiveType.Sphere;
     private Shader highlight_S;
     private Shader standard_S;
     private Renderer rend;
     private Collider coll;
     private bool IsCollide;
     private bool useHighlight;
-    private bool waitForUnpress = true;
-    public bool Room;
-    public bool Table;
-    public bool Hand;
-    public bool Draw;
-    public int counter;
+
 
     private void OnEnable()
     {
         //Stuffs for the controller
         _controller = GetComponent<SteamVR_TrackedController>();
-        _controller.TriggerClicked += HandleTriggerClicked;
-        _controller.TriggerUnclicked += HandleTriggerUnclicked;
         _controller.PadClicked += HandlePadClicked;
         _controller.PadUnclicked += HandlePadUnclicked;
 
@@ -39,51 +31,17 @@ public class MarkerControl : MonoBehaviour {
         useHighlight = coll.gameObject.GetComponent<MeshRenderer>().material.shader == standard_S ? true : false;
         if (IsCollide)
         {
-            Debug.Log("we in here");
             coll.gameObject.GetComponent<MeshRenderer>().material.shader = useHighlight ? highlight_S : standard_S;
         }
 
-        Debug.Log("clicked" + coll);
         coll = null;
-        Debug.Log("Nothing should follow this: " + coll);
     }
 
     private void HandlePadUnclicked(object sender, ClickedEventArgs e)
     {
+        //Required redundancy to ensure coll is null
+        //coll would not set to null without this on occasion
         coll = null;
-        Debug.Log("unclicked" + coll);
-    }
-
-    private void HandleTriggerClicked(object sender, ClickedEventArgs e)
-    {
-        EnableQuestion(true);
-    }
-
-    private void HandleTriggerUnclicked(object sender, ClickedEventArgs e)
-    {
-        EnableQuestion(false);
-    }
-
-    private void EnableQuestion(bool state)
-    {
-        GameObject Paper = GameObject.Find("Paper");
-        GameObject Question = GameObject.Find("Question");
-        Paper.GetComponent<MeshRenderer>().enabled = state;
-        Question.GetComponent<MeshRenderer>().enabled = state;
-    }
-
-    void Start()
-    {
-        counter = 0;
-        EnableQuestion(false);
-    }
-
-    void Update()
-    {
-        if (Input.GetButtonDown("Fire3"))
-        {
-            ChangeQuestionText();
-        }
     }
 
     private void OnTriggerStay(Collider collision)
@@ -96,22 +54,9 @@ public class MarkerControl : MonoBehaviour {
         }
        
     }
+
     private void OnTriggerExit(Collider collision)
     {
         IsCollide = false;
-    }
-
-    void ChangeQuestionText()
-    {
-
-        Questions newText = new Questions();
-        GameObject text = GameObject.Find("Question");
-        if (Room) { text.GetComponent<TextMesh>().text = newText.Room_Q[counter]; }
-        else if (Table) { text.GetComponent<TextMesh>().text = newText.Table_Q[counter]; }
-        else if (Hand){ text.GetComponent<TextMesh>().text = newText.Hand_Q[counter]; }
-        else { Debug.Log("Error, no scale boolean set, what are you doing fool?"); }
-
-        counter++;
-        if (counter > 2) { counter = 0; }
     }
 }

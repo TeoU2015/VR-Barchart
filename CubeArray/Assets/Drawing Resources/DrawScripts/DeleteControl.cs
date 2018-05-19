@@ -18,6 +18,7 @@ public class DeleteControl : MonoBehaviour {
 
     private void HandlePadClicked(object sender, ClickedEventArgs e)
     {
+        Debug.Log(CollideWithDraw);
         if (CollideWithDraw)
         {
             Destroy(coll.gameObject);
@@ -28,7 +29,7 @@ public class DeleteControl : MonoBehaviour {
 
     private void HandlePadUnclicked(object sender, ClickedEventArgs e)
     {
-        coll = null;
+         coll = null;
     }
 
     private void OnTriggerStay(Collider collision)
@@ -37,6 +38,7 @@ public class DeleteControl : MonoBehaviour {
         {
             coll = collision;
             CollideWithDraw = true;
+            Debug.Log("gucci gang");
         }
 
     }

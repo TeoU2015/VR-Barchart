@@ -134,7 +134,7 @@ namespace Parabox.InteractivePrimitives
 		 */
 		void OnDestroy()
 		{
-			DestroyImmediate(GetComponent<MeshFilter>().sharedMesh);
+			DestroyImmediate(GetComponent<MeshFilter>().sharedMesh, true);
 		}
 
 #if PARABOX_DEBUG

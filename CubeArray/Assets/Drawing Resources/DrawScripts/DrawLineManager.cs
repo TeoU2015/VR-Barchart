@@ -9,14 +9,24 @@ public class DrawLineManager : MonoBehaviour {
     public GameObject DrawSphere;
     public Transform DrawTip;
     public Transform DrawBase;
+    public bool Hand;
 
     private MeshLineRenderer currLine;
     private MeshCollider currMesh;
     private GameObject currObj;
+    private GameObject Vis;
     int numClicks = 0;
 
-	// Update is called once per frame
-	void Update () {
+    private void Start()
+    {
+        if (Hand)
+        {
+            Vis = GameObject.Find("Viz");
+        }
+    }
+    
+    // Update is called once per frame
+    void Update () {
         SteamVR_Controller.Device device = SteamVR_Controller.Input((int)trackedObj.index);
         if (device.GetTouchDown(SteamVR_Controller.ButtonMask.Trigger))
         {
@@ -41,6 +51,12 @@ public class DrawLineManager : MonoBehaviour {
         {
             currMesh = currObj.AddComponent<MeshCollider>();
             currMesh.sharedMesh = currObj.GetComponent<MeshFilter>().mesh;
+
+            if (Hand)
+            {
+                currObj.transform.parent = Vis.transform;
+            }
+            
         }
     }
 }

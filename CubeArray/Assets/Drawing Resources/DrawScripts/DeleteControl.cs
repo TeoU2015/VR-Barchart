@@ -20,7 +20,7 @@ public class DeleteControl : MonoBehaviour {
     {
         if (CollideWithDraw)
         {
-            Destroy(coll.gameObject);
+            Destroy(coll.gameObject.transform.parent.gameObject);
         }
 
         coll = null;

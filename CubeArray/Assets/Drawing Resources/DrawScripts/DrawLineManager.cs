@@ -9,6 +9,8 @@ public class DrawLineManager : MonoBehaviour {
     public GameObject DrawSphere;
     public Transform DrawTip;
     public Transform DrawBase;
+    public Transform DrawTipEX;
+    public Transform DrawBaseEX;
     public bool Hand;
 
     private MeshLineRenderer currLine;
@@ -34,8 +36,6 @@ public class DrawLineManager : MonoBehaviour {
             currObj.tag = "Draw";
             currLine = currObj.AddComponent<MeshLineRenderer>();
 
-
-
             currLine.lmat = lmat;
             currLine.setWidth(.1f); //static width
 
@@ -44,6 +44,7 @@ public class DrawLineManager : MonoBehaviour {
         else if (device.GetTouch(SteamVR_Controller.ButtonMask.Trigger))
         {
             currLine.AddPoint(DrawBase.position, DrawTip.position); // while touch keep adding point
+            currLine.AddPoint(DrawBaseEX.position, DrawTipEX.position); // while touch keep adding point experimental
 
             numClicks++;
         }           

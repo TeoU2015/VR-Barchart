@@ -5,6 +5,7 @@ using UnityEngine;
 public class CreateVis : MonoBehaviour {
 
     public Material material;
+    public Material transparent = Resources.Load<Material>("MATERIALS/white") as Material;
     public Material textMat;
     public Font font;
     public string[] matNames = {   "White", //text color
@@ -122,13 +123,14 @@ public class CreateVis : MonoBehaviour {
         float raw_value = norm_value * max;
         float max_tickValue = raw_value - (raw_value % multiple);
 
-        for (int i = 1; i <= (max_tickValue / multiple); i++)
+        for (int i = 0; i <= (max_tickValue / multiple); i++)
         {
             float tick_height = ((i * multiple / max) * 6.8f);
 
             if (tick_height + 0.025f < norm_value * 6.8) //account for the extra height of the tick bar
             {
                 GameObject tick = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                tick.GetComponent<MeshRenderer>().material = transparent;
                 Destroy(tick.GetComponent<BoxCollider>());
                 Transform tick_T = tick.transform;
                 tick.name = Bar.name + " tick_" + i.ToString();
@@ -263,6 +265,7 @@ public class CreateVis : MonoBehaviour {
                     GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     cube.name = country.ToString() + "," + year.ToString();
                     cube.tag = "Bar";
+                    cube.AddComponent<BarCollision>();
                     cube.GetComponent<MeshRenderer>().material = material;
                     float norm_Value = System.Convert.ToSingle(Input[country][year]);
                     float height = norm_Value * 6.8f; //6.8 = manually calculated width of entire vis

@@ -7,8 +7,11 @@ public class MarkerControl2 : MonoBehaviour {
     private SteamVR_TrackedController _controller;
     private Shader highlight_S;
     private Shader standard_S;
+    private Shader transparent_S;
     private Renderer rend;
     private Collider coll;
+    private Color transparent_h = new Color(0, 1, 0, 0.25f);
+    private Color opaque_h = new Color(0, 1, 0, 1);
     private bool IsCollide;
     private bool IsClick;
     private bool useHighlight;
@@ -23,13 +26,15 @@ public class MarkerControl2 : MonoBehaviour {
         //Stuffs for changing shaders
         rend = GetComponent<Renderer>();
         highlight_S = Shader.Find("Outlined/Uniform");
+        transparent_S = Shader.Find("Outlined/Transparent");
         standard_S = Shader.Find("Standard");
     }
 
     private void HandlePadClicked(object sender, ClickedEventArgs e)
     {
         IsClick = true; //set click bool
-      
+        coll.gameObject.GetComponent<MeshRenderer>().material.shader = useHighlight ? highlight_S : standard_S; // Change shader
+        useHighlight = !useHighlight;
     }
 
     private void HandlePadUnclicked(object sender, ClickedEventArgs e)
@@ -55,9 +60,9 @@ public class MarkerControl2 : MonoBehaviour {
     private void OnTriggerStay(Collider collision)
     {
 
-        if (collision.gameObject.tag == "Bar")
+        if (collision.gameObject.tag == "Bar" && !IsClick)
         {
-            coll.gameObject.GetComponent<MeshRenderer>().material.shader = useHighlight ? highlight_S : standard_S; // Change shader
+            coll.gameObject.GetComponent<MeshRenderer>().material.shader = transparent_S; // Change to transparent outline shader
             IsCollide = true;
         }
        
@@ -68,6 +73,8 @@ public class MarkerControl2 : MonoBehaviour {
         if (IsClick)
         {
             IsClick = false;    // reset bool on exit
+            //coll.gameObject.GetComponent<MeshRenderer>().material.shader = useHighlight ? highlight_S : standard_S; // Change shader
+
             //do nothing else and keep new shader
         }
         else if (coll != null)  // if condition removes errors with non bar objects, QoL addition

@@ -18,7 +18,7 @@ public class HandScale : MonoBehaviour
     [Range(0.01f, 1f)]
     public float scaleWL = 0.3f; //scaling value for space between bars
     [Range(0.01f, 1f)]
-    public float MasterScale = 0.015f;
+    public float MasterScale = 0.03f;
     [Range(0.01f, 1f)]
     public float BarWidth = 0.5f;
 
@@ -56,7 +56,7 @@ public class HandScale : MonoBehaviour
                 Debug.Log(HandTied);
 
                 HandVis.transform.localPosition = new Vector3(-0.06f, 0.06f, 0.01f);
-                HandVis.transform.localRotation = Quaternion.Euler(50, 0, 0);
+                HandVis.transform.localRotation = Quaternion.Euler(50, -45, 0);
                 HandVis.transform.parent = controller.transform;
                 HandTied = true;
             }

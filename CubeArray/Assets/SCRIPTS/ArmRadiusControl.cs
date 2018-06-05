@@ -6,6 +6,7 @@ public class ArmRadiusControl : MonoBehaviour {
 
     public SteamVR_TrackedController _controller;
     public SteamVR_TrackedObject _hmd;
+    public GameObject cylinder;
 
     // Use this for initialization
     void Start () {
@@ -15,8 +16,9 @@ public class ArmRadiusControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        cylinder.transform.position = _hmd.transform.position;
         float radius = getDistance(_controller.transform.position, _hmd.transform.position);
-        this.transform.localScale = new Vector3(radius*2, radius*2, radius*2);
+        this.transform.localScale = new Vector3(radius*2, 10, radius*2);
 	}
 
     //basic pythagorean for x and z axis

@@ -43,15 +43,10 @@ public class DeleteControl : MonoBehaviour {
 
     private void HandlePadClicked(object sender, ClickedEventArgs e)
     {
-        if(frame != Time.frameCount)
-        {
-            Debug.Log("click accept");
-            enableDelete = enableDelete ? false : true;
-            eraser.SetActive(enableDelete);
-            Debug.Log(enableDelete);
-        }
-        Debug.Log("click");
-        
+
+        enableDelete = enableDelete ? false : true;
+        eraser.SetActive(enableDelete);
+        Debug.Log("kjhg");
 
     }
 

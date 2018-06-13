@@ -34,6 +34,9 @@ public class DrawLineManagerEX : MonoBehaviour {
     private MeshLineRenderer currLineEXTURBO;
     private GameObject currObjEXTURBO;
 
+    //Variables to toggle drawing
+    private bool enableDraw = true;
+
 
     private void Start()
     {
@@ -46,8 +49,14 @@ public class DrawLineManagerEX : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         SteamVR_Controller.Device device = SteamVR_Controller.Input((int)trackedObj.index);
-        if (device.GetTouchDown(SteamVR_Controller.ButtonMask.Trigger))
+        if(device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
         {
+            enableDraw = enableDraw ? false : true;
+            Debug.Log(enableDraw);
+        }
+
+        if (device.GetTouchDown(SteamVR_Controller.ButtonMask.Trigger) && enableDraw)
+        {           
             //Master Line Object
             masterObj = new GameObject();
             masterObj.tag = "Draw";
@@ -75,24 +84,25 @@ public class DrawLineManagerEX : MonoBehaviour {
             currLineEXTURBO.setWidth(.1f); //static width
 
             numClicks = 0;
+            
         }
-        else if (device.GetTouch(SteamVR_Controller.ButtonMask.Trigger))
-        {
+        else if (device.GetTouch(SteamVR_Controller.ButtonMask.Trigger) && enableDraw)
+        {            
             currLine.AddPoint(DrawBase.position, DrawTip.position); // while touch keep adding point
             currLineEX.AddPoint(DrawBaseEX.position, DrawTipEX.position); // while touch keep adding point experimental
             currLineEXTURBO.AddPoint(DrawBaseEXTURBO.position, DrawTipEXTURBO.position); // while touch keep adding point experimental
 
-            numClicks++;
+            numClicks++;            
         }           
-        else if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger))
-        {
+        else if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger) && enableDraw)
+        {           
             currMesh = currObj.AddComponent<MeshCollider>();
             currMesh.sharedMesh = currObj.GetComponent<MeshFilter>().mesh;
 
             if (Hand)
             {
                 masterObj.transform.parent = Vis.transform;
-            }
+            }          
             
         }
     }

@@ -26,9 +26,9 @@ public class BarCollision : MonoBehaviour {
         }
     }
 
-    private void OnTriggerExit()
+    private void OnTriggerExit(Collider other)
     {
-        if (setInvis)
+        if (setInvis && other.gameObject.tag == "armRadius")
         {
             this.GetComponent<MeshRenderer>().material.color = baseColor;
             ChangeChildren(1f);

@@ -12,6 +12,7 @@
 		// extra pass that renders to depth buffer only
 		Pass{
 			ZWrite On
+			Cull Off
 			ColorMask 0
 		}
 

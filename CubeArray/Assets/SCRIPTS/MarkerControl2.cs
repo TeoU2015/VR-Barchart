@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MarkerControl2 : MonoBehaviour {
 
-    private SteamVR_TrackedController _controller;
+    public SteamVR_TrackedController _controller;
     private Shader highlight_S;
     private Shader standard_S;
     private Shader transparent_S;
@@ -19,7 +19,7 @@ public class MarkerControl2 : MonoBehaviour {
     private void OnEnable()
     {
         //Stuffs for the controller
-        _controller = GetComponent<SteamVR_TrackedController>();
+        //_controller = GetComponent<SteamVR_TrackedController>();
         _controller.PadClicked += HandlePadClicked;
         _controller.PadUnclicked += HandlePadUnclicked;
 
@@ -27,11 +27,12 @@ public class MarkerControl2 : MonoBehaviour {
         rend = GetComponent<Renderer>();
         highlight_S = Shader.Find("Outlined/Uniform");
         transparent_S = Shader.Find("Outlined/Transparent");
-        standard_S = Shader.Find("Standard");
+        standard_S = Shader.Find("Custom/CustomTransparent");
     }
 
     private void HandlePadClicked(object sender, ClickedEventArgs e)
     {
+        Debug.Log("click");
         IsClick = true; //set click bool
         coll.gameObject.GetComponent<MeshRenderer>().material.shader = useHighlight ? highlight_S : standard_S; // Change shader
         useHighlight = !useHighlight;
@@ -70,23 +71,26 @@ public class MarkerControl2 : MonoBehaviour {
 
     private void OnTriggerExit(Collider collision)
     {
-        if (IsClick)
+        if (collision.gameObject.tag == "Bar")
         {
-            IsClick = false;    // reset bool on exit
-            //coll.gameObject.GetComponent<MeshRenderer>().material.shader = useHighlight ? highlight_S : standard_S; // Change shader
+            if (IsClick)
+            {
+                IsClick = false;    // reset bool on exit
+                                    //coll.gameObject.GetComponent<MeshRenderer>().material.shader = useHighlight ? highlight_S : standard_S; // Change shader
 
-            //do nothing else and keep new shader
-        }
-        else if (coll != null)  // if condition removes errors with non bar objects, QoL addition
-        {
-            coll.gameObject.GetComponent<MeshRenderer>().material.shader = !useHighlight ? highlight_S : standard_S; // revert to initial shader
-        }
+                //do nothing else and keep new shader
+            }
+            else if (coll != null)  // if condition removes errors with non bar objects, QoL addition
+            {
+                coll.gameObject.GetComponent<MeshRenderer>().material.shader = !useHighlight ? highlight_S : standard_S; // revert to initial shader
+            }
 
-        //below added to fix bug when colliding with two objects at same time
-        if (collision == coll)  //check that the object you're exiting is same as one you entered
-        { 
-            coll = null;
+            //below added to fix bug when colliding with two objects at same time
+            if (collision == coll)  //check that the object you're exiting is same as one you entered
+            {
+                coll = null;
+            }
+            IsCollide = false;  //reset collision bool
         }
-        IsCollide = false;  //reset collision bool
     }
 }

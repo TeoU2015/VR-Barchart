@@ -5,7 +5,7 @@ using UnityEngine;
 public class CreateVis : MonoBehaviour {
 
     public Material material;
-    public Material transparent = Resources.Load<Material>("MATERIALS/white") as Material;
+    public Material transparent = Resources.Load<Material>("MATERIALS/Ticks") as Material;
     public Material textMat;
     public Font font;
     public string[] matNames = {   "White", //text color

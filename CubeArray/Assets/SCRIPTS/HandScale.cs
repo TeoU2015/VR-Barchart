@@ -55,8 +55,8 @@ public class HandScale : MonoBehaviour
                 GameObject HandVis = GameObject.Find("Viz");
                 Debug.Log(HandTied);
 
-                HandVis.transform.localPosition = new Vector3(-0.06f, 0.06f, 0.01f);
-                HandVis.transform.localRotation = Quaternion.Euler(50, -45, 0);
+                HandVis.transform.localPosition = new Vector3(0.01f, 0.15f, 0.01f);
+                HandVis.transform.localRotation = Quaternion.Euler(33.4f, -65.2f, -51.6f);
                 HandVis.transform.parent = controller.transform;
                 HandTied = true;
             }

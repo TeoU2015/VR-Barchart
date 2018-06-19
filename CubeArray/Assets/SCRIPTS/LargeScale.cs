@@ -9,6 +9,7 @@ public class LargeScale : MonoBehaviour
     public CreateVis createVis;
     [HideInInspector]
     public ReadCSV csv;
+    public QuestionTrigger qt;
     public string filename;
   
     [Range(0.01f, 1f)]
@@ -22,6 +23,10 @@ public class LargeScale : MonoBehaviour
     {
         //Instantiate other scripts
         createVis = new CreateVis();
+
+        //Set filename for correct questions
+        qt.setFilename(filename);
+
         //read and get CSV values
         csv = new ReadCSV();
         List<List<object>> Data = csv.getList(filename); ;

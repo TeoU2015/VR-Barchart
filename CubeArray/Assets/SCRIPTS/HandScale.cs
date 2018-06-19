@@ -13,6 +13,7 @@ public class HandScale : MonoBehaviour
     public GameObject controller;
     [HideInInspector]
     public bool HandTied;
+    public QuestionTrigger qt;
     public string filename;
   
     [Range(0.01f, 1f)]
@@ -26,6 +27,10 @@ public class HandScale : MonoBehaviour
     {
         //Instantiate other scripts
         createVis = new CreateVis();
+
+        //Set filename for correct questions
+        qt.setFilename(filename);
+
         //read and get CSV values
         csv = new ReadCSV();
         List<List<object>> Data = csv.getList(filename); ;
@@ -53,7 +58,6 @@ public class HandScale : MonoBehaviour
             if (controller != null)
             {
                 GameObject HandVis = GameObject.Find("Viz");
-                Debug.Log(HandTied);
 
                 HandVis.transform.localPosition = new Vector3(0.01f, 0.15f, 0.01f);
                 HandVis.transform.localRotation = Quaternion.Euler(33.4f, -65.2f, -51.6f);

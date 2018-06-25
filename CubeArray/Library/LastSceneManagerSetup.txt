@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Experiment 2/Hand Scale Control.unity
+- path: Assets/Scenes/Experiment 2/Table&Drawing.unity
   isLoaded: 1
   isActive: 1

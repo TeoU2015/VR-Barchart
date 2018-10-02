@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Experiment 2/Table&Drawing.unity
+- path: Assets/Scenes/All Three.unity
   isLoaded: 1
   isActive: 1

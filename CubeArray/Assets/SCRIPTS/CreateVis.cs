@@ -36,16 +36,27 @@ public class CreateVis : MonoBehaviour {
         return max;
     }
 
-    public void Normalize(List<List<object>> Input, float max)
+    public List<List<object>> Normalize(List<List<object>> Input, float max)
     {
+        List<List<object>> Output = new List<List<object>>();
         //Iterate and Normalize values by largest number
-        for (int i = 1; i < 11; i++)
+        for (int i = 0; i < 11; i++)
         {
-            for (int j = 1; j < 11; j++)
+            List<object> row = new List<object>();
+            for (int j = 0; j < 11; j++)
             {
-                Input[i][j] = (System.Convert.ToSingle(Input[i][j]) / max);
+                if (i == 0 || j == 0)
+                {
+                    row.Add(Input[i][j]);
+                }
+                else
+                {
+                    row.Add(System.Convert.ToSingle(Input[i][j]) / max);
+                }
             }
+            Output.Add(row);
         }
+        return Output;
     }
 
     public float CalculateMultiple(float max)
@@ -195,12 +206,13 @@ public class CreateVis : MonoBehaviour {
     public GameObject Create10x10(List<List<object>> Input, float scaleWidth, float barWidth)
     {
         float max = FindMax(Input);
+        Debug.Log(max);
         float baseLength = 11f - (10f * scaleWidth); //10+extra space - scaling? 11f is magic... used to be 10.25
         float offset = (1f - scaleWidth - .25f); // offset by 1(because first column no cubes) - scaling - width/2
         float baseHeight = 3f;
         //Note: offset / 2 = position of base - half width
 
-        Normalize(Input, max); // Normalize the values for correct bar height
+        List<List<object>> Input_n = Normalize(Input, max); // Normalize the values for correct bar height
 
         //Gameobject that holds all objects related to the visualization
         GameObject Vis = new GameObject();
@@ -267,7 +279,7 @@ public class CreateVis : MonoBehaviour {
                     cube.tag = "Bar";
                     cube.AddComponent<BarCollision>();
                     cube.GetComponent<MeshRenderer>().material = material;
-                    float norm_Value = System.Convert.ToSingle(Input[country][year]);
+                    float norm_Value = System.Convert.ToSingle(Input_n[country][year]);
                     float height = norm_Value * 6.8f; //6.8 = manually calculated width of entire vis
                     float pushY = height / 2; // since unity scales from center, push up by half of height
                     cube.transform.parent = (cubeArray.transform);

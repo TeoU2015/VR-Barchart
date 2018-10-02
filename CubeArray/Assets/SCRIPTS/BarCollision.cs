@@ -12,7 +12,7 @@ public class BarCollision : MonoBehaviour {
     {
         baseColor = this.GetComponent<MeshRenderer>().material.color;
         lowOpacity = baseColor;
-        lowOpacity.a = 0.2f;
+        lowOpacity.a = 0.5f;
     }
 
     private void OnTriggerEnter(Collider other)

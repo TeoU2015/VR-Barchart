@@ -20,8 +20,8 @@ public class MarkerControl2 : MonoBehaviour {
     {
         //Stuffs for the controller
         //_controller = GetComponent<SteamVR_TrackedController>();
-        _controller.PadClicked += HandlePadClicked;
-        _controller.PadUnclicked += HandlePadUnclicked;
+        _controller.TriggerClicked += HandlePadClicked;
+        _controller.TriggerUnclicked += HandlePadUnclicked;
 
         //Stuffs for changing shaders
         rend = GetComponent<Renderer>();

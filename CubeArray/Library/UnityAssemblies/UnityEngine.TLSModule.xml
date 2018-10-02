@@ -2,7 +2,7 @@
 <doc>
   <members>
     <assembly>
-      <name>UnityEditor.UIAutomation</name>
+      <name>UnityEngine.TLSModule</name>
     </assembly>
   </members>
 </doc>

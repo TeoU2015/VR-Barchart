@@ -16,8 +16,12 @@ public class LargeScale : MonoBehaviour
     public float scaleWL = 0.3f; //scaling value for space between bars
     [Range(0.01f, 1f)]
     public float MasterScale = 0.015f;
-    [Range(0.01f, 1f)]
-    public float BarWidth = 0.5f;
+    [Range(0, 100f)]
+    public float barWidth = 5f;
+    [Range(0f, 100f)]
+    public float spaceWidth = 2f;
+    [Range(0f, 100f)]
+    public float spaceRatio = 2.5f;
 
     void Awake()
     {
@@ -25,14 +29,14 @@ public class LargeScale : MonoBehaviour
         createVis = new CreateVis();
 
         //Set filename for correct questions
-        qt.setFilename(filename);
+        //qt.setFilename(filename);
 
         //read and get CSV values
         csv = new ReadCSV();
-        List<List<object>> Data = csv.getList(filename); ;
+        List<List<object>> Data = csv.getList("hiv.csv"); ;
 
         //Create the Vis
-        GameObject Vis = createVis.Create10x10(Data, scaleWL, BarWidth);
+        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio);
 
         //Final Transformations
         Vis.transform.localScale = new Vector3(MasterScale, MasterScale, MasterScale);

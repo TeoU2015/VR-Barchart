@@ -28,8 +28,8 @@ public class HandScale : MonoBehaviour
         //Instantiate other scripts
         createVis = new CreateVis();
 
-        //Set filename for correct questions
-        qt.setFilename(filename);
+        //initialize questions
+        check_qt();
 
         //read and get CSV values
         csv = new ReadCSV();
@@ -46,6 +46,14 @@ public class HandScale : MonoBehaviour
     void Start()
     {
 
+    }
+
+    void check_qt()
+    {
+        if (qt != null)
+        {
+            qt.setQuestionTrigger(filename);
+        }
     }
 
     // Update is called once per frame

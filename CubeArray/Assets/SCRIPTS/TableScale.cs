@@ -25,7 +25,7 @@ public class TableScale : MonoBehaviour
         createVis = new CreateVis();
 
         //Set filename for correct questions
-        qt.setFilename(filename);
+        //qt.setFilename(filename);
 
         //read and get CSV values
         csv = new ReadCSV();

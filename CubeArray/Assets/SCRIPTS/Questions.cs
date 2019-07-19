@@ -94,14 +94,4 @@ public class Questions : MonoBehaviour {
             "\n\nWhich one has the" +
             "\nlowest value?"
     };
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-}
+    }

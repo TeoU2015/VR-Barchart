@@ -6,9 +6,9 @@ public class QuestionTrigger : MonoBehaviour {
 
     private SteamVR_TrackedController _controller;
     private PrimitiveType _currentPrimitiveType = PrimitiveType.Sphere;
-    public bool Room;
-    public bool Table;
-    public bool Hand;
+    private string[] active_q;
+    private GameObject Paper;
+    private GameObject QuestionText;
     public int counter;
 	public string filename;
 
@@ -29,12 +29,16 @@ public class QuestionTrigger : MonoBehaviour {
         EnableQuestion(false);
     }
 
+    /// <summary>
+    /// Enables or disable the questionboard based on boolean
+    /// </summary>
+    /// <param name="state">Boolean for whether Question board is enabled</param>
     private void EnableQuestion(bool state)
     {
-        GameObject Paper = GameObject.Find("Paper");
-        GameObject Question = GameObject.Find("Question");
+        //GameObject Paper = GameObject.Find("Paper");
+        //GameObject Question = GameObject.Find("Question");
         Paper.GetComponent<MeshRenderer>().enabled = state;
-        Question.GetComponent<MeshRenderer>().enabled = state;
+        QuestionText.GetComponent<MeshRenderer>().enabled = state;
     }
 
     void Start()
@@ -42,7 +46,9 @@ public class QuestionTrigger : MonoBehaviour {
         counter = 0;
         EnableQuestion(false);
     }
-
+    /// <summary>
+    /// Waits for input to change question
+    /// </summary>
     void Update()
     {
         if (Input.GetButtonDown("Fire3"))
@@ -51,75 +57,48 @@ public class QuestionTrigger : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Changes Question board text
+    /// </summary>
     void ChangeQuestionText()
     {
-
-        Questions newText = new Questions();
-        GameObject text = GameObject.Find("Question");
-        switch (filename)
-        {
-            case "co2.csv":
-                text.GetComponent<TextMesh>().text = newText.co2[counter];
-                break;
-            case "education.csv":
-                text.GetComponent<TextMesh>().text = newText.edu[counter];
-                break;
-            case "grosscapital.csv":
-                text.GetComponent<TextMesh>().text = newText.cap[counter];
-                break;
-            case "health.csv":
-                text.GetComponent<TextMesh>().text = newText.hlth[counter];
-                break;
-            case "homicide.csv":
-                text.GetComponent<TextMesh>().text = newText.hom[counter];
-                break;
-            case "suicide.csv":
-                text.GetComponent<TextMesh>().text = newText.sui[counter];
-                break;
-            default:
-                Debug.Log("No filename set, fool.");
-                break;
-        }
-
-        counter++;
-        if (counter > 2) { counter = 0; }
+        QuestionText.GetComponent<TextMesh>().text = active_q[counter]; // change text from string[]
+        counter = counter < 2 ? counter+1 : 0; //change counter to cycle through questions
     }
 
-	public void setFilename(string name)
+    /// <summary> Sets the questions and filename, and finds the Question Board GameObjects
+    /// <remarks> Far from the best way to accomplish this, but it did the job</remarks>
+    /// </summary>
+	public void setQuestionTrigger(string name)
 	{
-		filename = name;
-		//setBool();
-	}
-	public void setBool()
-	{
+        filename = name;//set the filename
         Debug.Log(filename);
-
-        switch(filename)
+        GameObject Paper = GameObject.Find("Paper"); //get the paper object
+        GameObject Question = GameObject.Find("Question");//get the question text
+        Questions q = new Questions(); // Get all the question strings
+        switch (filename)//Just grab the one string[] based on filename
         {
             case "co2.csv":
-
+                active_q = q.co2;
                 break;
             case "education.csv":
-
+                active_q = q.edu;
                 break;
             case "grosscapital.csv":
-
+                active_q = q.cap;
                 break;
             case "health.csv":
-
+                active_q = q.hlth;
                 break;
             case "homicide.csv":
-
+                active_q = q.hom;
                 break;
             case "suicide.csv":
-
+                active_q = q.sui;
+                break;
+            default:
+                Debug.Log("No filename/ filename doesn't correspond to any 'Questions'.");
                 break;
         }
-
-		if (filename == "HealthSpending.csv") {Room = true;}
-		else if (filename == "GDPImport.csv") {Table = true;}
-		else if (filename == "HIVData.csv") {Hand = true;}
-		else{Debug.Log ("Error: not valid filename, type fool");}
-
 	}
 }

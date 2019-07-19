@@ -10,6 +10,7 @@ public class ReadCSV : MonoBehaviour {
 
         List<List<object>> Data = new List<List<object>>();
         string path = "Assets/CSV/" + filename;
+        Debug.Log(path);
         using (TextFieldParser parser = new TextFieldParser(path))
         {
             parser.TextFieldType = FieldType.Delimited;

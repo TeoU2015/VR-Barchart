@@ -11,13 +11,11 @@ public class Three : MonoBehaviour
     public ReadCSV csv;
     public QuestionTrigger qt;
     public string filename;
-  
-    [Range(0.01f, 1f)]
-    public float scaleWL = 0.3f; //scaling value for space between bars
-    [Range(0.01f, 1f)]
-    public float MasterScale = 0.015f;
-    [Range(0.01f, 1f)]
-    public float BarWidth = 0.5f;
+
+    [Range(0.01f, 100f)]
+    public float MasterScale = 0.3f;
+    [Range(0f, 100f)]
+    public float spaceRatio = 2.5f;
     private List<List<object>> Data;
 
     void Awake()
@@ -41,10 +39,10 @@ public class Three : MonoBehaviour
     void MakeRoom()
     {
         //Create the Vis
-        GameObject Vis = createVis.Create10x10(Data, scaleWL, BarWidth);
+        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio);
 
         //Final Transformations
-        Vis.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+        Vis.transform.localScale = new Vector3(8f, 8f, 8f);
         Vis.transform.position = new Vector3(0.5f, 0.01f, 1.2f);
 
         //Adjust labels
@@ -59,7 +57,7 @@ public class Three : MonoBehaviour
     void MakeTable()
     {
         //Create the Vis
-        GameObject Vis = createVis.Create10x10(Data, scaleWL, BarWidth);
+        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio);
         GameObject stand = GameObject.CreatePrimitive(PrimitiveType.Cube);
         stand.name = "Stand";
         stand.transform.localPosition = Vector3.zero;
@@ -67,7 +65,7 @@ public class Three : MonoBehaviour
       
 
         //Final Transformations
-        Vis.transform.localScale = new Vector3(0.08f, 0.08f, 0.08f);
+        Vis.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
         Vis.transform.parent = GameObject.Find("Stand").transform;
         Vis.transform.localPosition = Vector3.zero;
         Vis.transform.localPosition = new Vector3(-0.528f, 0.64f, -0.528f);//magic numbers galore!
@@ -77,7 +75,7 @@ public class Three : MonoBehaviour
     void MakeHand()
     {
         //Create the Vis
-        GameObject Vis = createVis.Create10x10(Data, scaleWL, BarWidth);
+        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio);
 
         //Final Transformations
         Vis.transform.localScale = new Vector3(0.015f, 0.015f, 0.015f);

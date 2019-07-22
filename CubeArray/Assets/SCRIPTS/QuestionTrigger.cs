@@ -7,8 +7,8 @@ public class QuestionTrigger : MonoBehaviour {
     private SteamVR_TrackedController _controller;
     private PrimitiveType _currentPrimitiveType = PrimitiveType.Sphere;
     private string[] active_q;
-    private GameObject Paper;
-    private GameObject QuestionText;
+    public GameObject Paper;
+    public GameObject QuestionText;
     public int counter;
 	public string filename;
 
@@ -76,6 +76,7 @@ public class QuestionTrigger : MonoBehaviour {
         GameObject Paper = GameObject.Find("Paper"); //get the paper object
         GameObject Question = GameObject.Find("Question");//get the question text
         Questions q = new Questions(); // Get all the question strings
+        Debug.Log(Paper);
         switch (filename)//Just grab the one string[] based on filename
         {
             case "co2.csv":

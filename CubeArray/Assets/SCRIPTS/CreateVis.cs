@@ -14,6 +14,7 @@ public class CreateVis : MonoBehaviour {
                                     "Orange", "Orange Light",
                                     "Purple", "Purple Light",
                                     "Red", "Red Light" };
+
     public Material LoadMaterial(int num)
     {
         Material m = Resources.Load<Material>("MATERIALS/" + matNames[num]) as Material;
@@ -32,7 +33,6 @@ public class CreateVis : MonoBehaviour {
                 if (temp > max) { max = temp; }
             }
         }
-
         return max;
     }
 
@@ -98,24 +98,25 @@ public class CreateVis : MonoBehaviour {
     public void CreatePanes(Transform parent, float max)
     {
 
-        float size = 1f;//pane width and height
+        float size = 1f;//pane width
+        float height = 1.2f; //pane height, larger than tallest bar(>1)
 
-        //make panes
+        //make pane that sits on Z axis
         GameObject paneZ = Instantiate(Resources.Load("Pane")) as GameObject; //pane parallel with z axis
         paneZ.name = "Pane Z Axis";
         paneZ.transform.parent = parent;
+        paneZ.transform.localScale = new Vector3(size, height, size);//change size of pane
         CreatePaneTicks(max, true, paneZ);
-        paneZ.transform.localScale = new Vector3(size, size, 1f);
-        paneZ.transform.position = new Vector3((size), (size / 2f), (size / 2f)); // -0.05 -- stops z fighting, 0.2f -- currently magic number
+        paneZ.transform.position = new Vector3((size), (height / 2f), (size / 2f));
         paneZ.transform.rotation = Quaternion.Euler(0, -90, 0);
 
-
+        //make pane that sits on X axis
         GameObject paneX = Instantiate(Resources.Load("Pane")) as GameObject; //pane parallel with x axis
         paneX.name = "Pane X axis";
         paneX.transform.parent = parent;
+        paneX.transform.localScale = new Vector3(size, height, size);//change size of pane
         CreatePaneTicks(max, false, paneX);
-        paneX.transform.localScale = new Vector3(size, size, 1f);
-        paneX.transform.position = new Vector3((size / 2f), (size / 2f), (size)); // -0.05 -- stops z fighting, 0.2f -- currently magic number
+        paneX.transform.position = new Vector3((size / 2f), (height / 2f), (size)); // -0.05 -- stops z fighting, 0.2f -- currently magic number
         paneX.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
@@ -136,7 +137,6 @@ public class CreateVis : MonoBehaviour {
 
     public void CreateAxisLabels(GameObject aParent, string label, float position, bool isZaxis)
     {
-
         //because I'm not sure on how font size and game size scale,
         //Here's some magic number to line up the labels! (sorry)
         GameObject aLabel = MakeLabel(aParent, label);
@@ -149,8 +149,7 @@ public class CreateVis : MonoBehaviour {
         {
             aLabel.transform.rotation = Quaternion.Euler(0, 0, -90);
             aLabel.transform.position = new Vector3(position+0.02f, -0.02f, -0.01f);// -0.05 -- stops z fighting, 0.95f == currently magic number, offset y by 0.1 because it looks nice
-        }
-        
+        }    
     }
 
     public void CreateBarTicks(GameObject Bar, float height_n, float max)
@@ -164,7 +163,6 @@ public class CreateVis : MonoBehaviour {
         for (int i = 0; i <=numTicks; i++)
         {
             float tick_height = ((i * multiple / max));
-
             if (tick_height + 0.0025f < height_n ) //account for the extra height of the tick bar
             {
                 GameObject tick = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -179,6 +177,7 @@ public class CreateVis : MonoBehaviour {
             }
         }
     }
+
     public GameObject CreateBar(GameObject aParent, string name, float height, float width, float xPos, float zPos, float max)
     {
         float yPos = height / 2f; // since unity scales from center, push up by half of height
@@ -197,35 +196,35 @@ public class CreateVis : MonoBehaviour {
 
     public void CreatePaneTicks(float max, bool isZAxis, GameObject aParent)
     {
-        //Very basic finding tick marks, with min ticks = 5, max ticks = 10. cheating because dealing with percentage data
-
+        
         float multiple = CalculateMultiple(max);
         float line_Max = max + (multiple - max % multiple); // find next highest multiple
         float numTicks = line_Max / multiple;
-        Debug.Log(max);
-        Debug.Log(line_Max);
 
+        //Create group for lines
         GameObject lines = new GameObject();
         lines.name = "lines";
         lines.transform.parent = aParent.transform;
 
+        //create group for the tick value labels
         GameObject lineTexts = new GameObject();
         lineTexts.name = "Texts";
         lineTexts.transform.parent = lines.transform;
 
-        //just liek make all the things
+        //For loop to make the ticks
         for (int i = 1; i <= numTicks; i++)
         {
-            GameObject line = Instantiate(Resources.Load("Line")) as GameObject;
+            GameObject line = Instantiate(Resources.Load("Line")) as GameObject; //load in premade line object
             line.name = "Line " + i.ToString();
             line.transform.parent = lines.transform;
             line.transform.localPosition = new Vector3(0, (i * multiple / max), 0);//normalize and plot
 
+            //create the tick value label, some magic numbers to adjust position
             GameObject valueText = MakeLabel(lineTexts, (i * multiple).ToString());
             valueText.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);//adjust text size
             float yAdjust = 0.02f;//offset text height to center with line
-
             valueText.GetComponent<MeshRenderer>().material.color = UnityEngine.Color.white;
+
             if (isZAxis)
             {
                 valueText.transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -239,8 +238,8 @@ public class CreateVis : MonoBehaviour {
                 //-0.52 is magic z axis adjustment number, differs slightly from Z pane because of letter orientation
             }
         }
-        lines.transform.localPosition = new Vector3(0.05f, -0.5f, 0);
         //final adjustment for all lines, 0.05f to stop Z-fighting, -0.5 because lines are postioned center from the parent pane.
+        lines.transform.localPosition = new Vector3(0.05f, -0.5f, 0);
     }
 
     public GameObject CreateChart(List<List<object>> Input, float masterScale, float spaceRatio)
@@ -255,10 +254,10 @@ public class CreateVis : MonoBehaviour {
         GameObject Vis = new GameObject();
         Vis.name = "Viz";
 
-        //Just, liek, make base
+        //Create base
         CreateBase(Vis.transform);
 
-        //Just, liek, make panes
+        //Create panes
         CreatePanes(Vis.transform, max);
 
         //GameObject to hold all the text labels, easier to see in inspector
@@ -266,9 +265,11 @@ public class CreateVis : MonoBehaviour {
         labels.name = "Labels";
         labels.transform.parent = (Vis.transform);
 
+        //Group country labels
         GameObject countryLabels = new GameObject(){ name = "Countries"};
         countryLabels.transform.parent = labels.transform;
 
+        //Group year labels
         GameObject yearLabels = new GameObject() { name = "Years" };
         yearLabels.transform.parent = labels.transform;
 
@@ -277,36 +278,29 @@ public class CreateVis : MonoBehaviour {
         cubeArray.name = "Bars";
         cubeArray.transform.parent = (Vis.transform);
 
-        //All maths assume a chart size of "1"
+        //All calculations assume a chart size of "1"
         //scale up or down from there using masterScale
         int xAxisLen = Input.Count; //count number of items in x axis
         int zAxisLen = Input[0].Count; //count number of items in y axis
         int maxLen = xAxisLen > zAxisLen ? xAxisLen : zAxisLen; //get largest length for normalizing positions and scales to 1
         float InitialBarWidth = 1f / (maxLen); //Initial bar width, assumes no space inbetween bars
 
-        //barWidth calculated by using space ratio as a fraction, although the math has been reduced to be nearly magical
-        //    float barWidth = (InitialBarWidth / ( barWidth_i + spaceWidth_i )) * barWidth_i
+        //barWidth calculated by using space ratio, although the math has been reduced to be nearly magical
+        //Originally: float barWidth = (InitialBarWidth / ( barWidth_i + spaceWidth_i )) * barWidth_i
         //However math checks out, and will scale the bar correctly to the spaceRatio provided
         float barWidth = (InitialBarWidth * spaceRatio) / (spaceRatio + 1f);// new barwidth adjusted by width-spacing ratio provided
-        Debug.Log(maxLen);
 
-        //Creat for each loop and counter
+        //Create for each loop and counter
         for (int country = 0; country < xAxisLen; country++)
         {
-
             material = LoadMaterial(country); // Load the correct color for the entire row
-
             for (int year = 0; year < zAxisLen; year++)
             {
                 //bar center position = (width / bars + 1) * i, bars+1 because we only want bars in the center, not the edges
                 float xAxisPos = (1f / (maxLen)) * country;
                 float zAxisPos = (1f / (maxLen)) * year;//12???????
 
-                if (country == 0 && year == 0)
-                {
-                    //In the array this is the title; don't really need it.
-                }
-                else if (country == 0)
+                if (country == 0 && year != 0)
                 {
                     //Make the year labels
                     CreateAxisLabels(yearLabels, System.Convert.ToString(Input[country][year]), zAxisPos, true);
@@ -324,14 +318,9 @@ public class CreateVis : MonoBehaviour {
                     GameObject bar = CreateBar(cubeArray, barName, height, barWidth, xAxisPos, zAxisPos, max);
                 }
             }
-
         }
-        //cubeArray.transform.localPosition = new Vector3(0.75f, 0, 0.75f);
-        // basically 0.75 is magic number, offset all the bars so that you can see the numbers on the glass plane
-
+        //apply MasterScale value to entire vis
         Vis.transform.localScale = new Vector3(masterScale, masterScale, masterScale);
-
-
 
         return Vis;
     }

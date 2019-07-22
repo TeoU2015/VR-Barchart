@@ -12,14 +12,8 @@ public class BaseScale : MonoBehaviour
     public QuestionTrigger qt;
     public string filename;
   
-    [Range(0.01f, 1f)]
-    public float scaleWL = 0.3f; //scaling value for space between bars
     [Range(0.01f, 100f)]
     public float MasterScale = 1f;
-    [Range(0, 100f)]
-    public float barWidth = 5f;
-    [Range(0f, 100f)]
-    public float spaceWidth = 2f;
     [Range(0f, 100f)]
     public float spaceRatio = 2.5f;
 

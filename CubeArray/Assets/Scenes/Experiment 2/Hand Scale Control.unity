@@ -113,7 +113,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!43 &171109765
+--- !u!43 &209678819
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -352,11 +352,11 @@ Prefab:
     - target: {fileID: 2348914, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 657575002}
+      objectReference: {fileID: 971690065}
     - target: {fileID: 3380982, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 171109765}
+      objectReference: {fileID: 209678819}
     - target: {fileID: 159396, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
       propertyPath: m_Name
       value: rightCon
@@ -396,9 +396,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67d57883e248c124199e74267f5eb930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Room: 0
-  Table: 0
-  Hand: 0
+  Paper: {fileID: 534448653}
+  QuestionText: {fileID: 1610909957}
   counter: 0
   filename: 
 --- !u!4 &518649055 stripped
@@ -442,39 +441,11 @@ MonoBehaviour:
   padPressed: 0
   padTouched: 0
   gripped: 0
---- !u!21 &657575002
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - PixelSnap: 0
-    - _EnableExternalAlpha: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!1 &534448653 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1393099093045772, guid: 530941f2f35dff841983a860544933ed,
+    type: 2}
+  m_PrefabInternal: {fileID: 1996553851}
 --- !u!1001 &701686330
 Prefab:
   m_ObjectHideFlags: 0
@@ -517,6 +488,39 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 198763d30511d29478f5feda12a2c5b6, type: 2}
   m_IsPrefabAsset: 0
+--- !u!21 &971690065
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1116210254
 GameObject:
   m_ObjectHideFlags: 0
@@ -525,7 +529,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1116210256}
-  - component: {fileID: 1116210255}
+  - component: {fileID: 1116210257}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -533,26 +537,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1116210255
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1116210254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21b83beb80c80db41b60abdbd3501a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  createVis: {fileID: 0}
-  csv: {fileID: 0}
-  controller: {fileID: 0}
-  HandTied: 0
-  qt: {fileID: 518649050}
-  filename: homicide.csv
-  scaleWL: 0.3
-  MasterScale: 0.03
-  BarWidth: 0.5
 --- !u!4 &1116210256
 Transform:
   m_ObjectHideFlags: 0
@@ -566,6 +550,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1116210257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1116210254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6163f514b77f9ba43ab13259cc015826, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  createVis: {fileID: 0}
+  csv: {fileID: 0}
+  controller: {fileID: 0}
+  HandTied: 0
+  qt: {fileID: 518649050}
+  filename: hiv.csv
+  MasterScale: 0.3
+  spaceRatio: 2.5
 --- !u!1 &1360322914
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,6 +635,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1610909957 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1117072656303588, guid: 530941f2f35dff841983a860544933ed,
+    type: 2}
+  m_PrefabInternal: {fileID: 1996553851}
 --- !u!1 &1630451003
 GameObject:
   m_ObjectHideFlags: 0

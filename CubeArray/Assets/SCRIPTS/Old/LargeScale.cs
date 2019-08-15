@@ -36,7 +36,7 @@ public class LargeScale : MonoBehaviour
         List<List<object>> Data = csv.getList("hiv.csv"); ;
 
         //Create the Vis
-        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio);
+        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio, false);
 
         //Final Transformations
         Vis.transform.localScale = new Vector3(MasterScale, MasterScale, MasterScale);

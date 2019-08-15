@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,6 +37,16 @@ public class CreateVis : MonoBehaviour {
         return max;
     }
 
+    public float CustomRound(float input)
+    { 
+        float ret = (float)System.Math.Truncate(input);
+        float check = input - ret;
+
+        ret = (check >= 0.5) ? (ret + 1) : ret;
+
+        return ret;
+    }
+
     public List<List<object>> Normalize(List<List<object>> Input, float max)
     {
         List<List<object>> Output = new List<List<object>>();
@@ -52,6 +63,37 @@ public class CreateVis : MonoBehaviour {
                 else
                 {
                     row.Add(System.Convert.ToSingle(Input[i][j]) / max);
+                }
+            }
+            Output.Add(row);
+        }
+        return Output;
+    }
+
+    public List<List<object>> legoHeight(List<List<object>> Input, float max)
+    {
+        List<List<object>> Output = new List<List<object>>();
+        float brickHeight = (1f/30f); //for readability
+
+        //Iterate through Normalized values
+        for (int i = 0; i < 11; i++)
+        {
+            List<object> row = new List<object>();
+            for (int j = 0; j < 11; j++)
+            {
+                if (i == 0 || j == 0)
+                {
+
+
+                    row.Add(Input[i][j]);
+                }
+                else
+                {
+                    float currentValue = System.Convert.ToSingle(Input[i][j]);
+                    float temp = currentValue / brickHeight;
+                    //round height to nearest 1/3rd lego brick
+                    float brickNum = CustomRound(temp);
+                    row.Add( (brickNum * brickHeight) );
                 }
             }
             Output.Add(row);
@@ -95,7 +137,7 @@ public class CreateVis : MonoBehaviour {
         bottom.transform.position = new Vector3((width / 2f), -(height / 2f), (width / 2f));//shuffle the center point by half x,y,z.
     }
 
-    public void CreatePanes(Transform parent, float max)
+    public void CreatePanes(Transform parent, float max, bool legoMode)
     {
 
         float size = 1f;//pane width
@@ -106,7 +148,7 @@ public class CreateVis : MonoBehaviour {
         paneZ.name = "Pane Z Axis";
         paneZ.transform.parent = parent;
         paneZ.transform.localScale = new Vector3(size, height, size);//change size of pane
-        CreatePaneTicks(max, true, paneZ);
+        CreatePaneTicks(max, true, paneZ, legoMode);
         paneZ.transform.position = new Vector3((size), (height / 2f), (size / 2f));
         paneZ.transform.rotation = Quaternion.Euler(0, -90, 0);
 
@@ -115,7 +157,7 @@ public class CreateVis : MonoBehaviour {
         paneX.name = "Pane X axis";
         paneX.transform.parent = parent;
         paneX.transform.localScale = new Vector3(size, height, size);//change size of pane
-        CreatePaneTicks(max, false, paneX);
+        CreatePaneTicks(max, false, paneX, legoMode);
         paneX.transform.position = new Vector3((size / 2f), (height / 2f), (size)); // -0.05 -- stops z fighting, 0.2f -- currently magic number
         paneX.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
@@ -152,33 +194,67 @@ public class CreateVis : MonoBehaviour {
         }    
     }
 
-    public void CreateBarTicks(GameObject Bar, float height_n, float max)
+    public void CreateBarTicks(GameObject Bar, float height_n, float max, bool legoMode)
     {
         Transform Bar_T = Bar.transform;
-        float multiple = CalculateMultiple(max);
+        float multiple = (legoMode) ? max/30f : CalculateMultiple(max);
         float rawHeight = height_n * max;//extract the orignal height from normalized value
-        float max_tickValue = rawHeight - (rawHeight % multiple);//calculate the largest value for this bar
-        float numTicks = (max_tickValue / multiple);//calculate number of ticks
+        float maxTickValue = rawHeight - (rawHeight % multiple);//calculate the largest value for this bar
+        float numTicks = (maxTickValue / multiple);//calculate number of ticks
+        float topCheckValue = (rawHeight - (3f * multiple))/max;
+        int iterator;
 
-        for (int i = 0; i <=numTicks; i++)
+        
+
+        for (iterator = 0; iterator <numTicks; iterator++)
         {
-            float tick_height = ((i * multiple / max));
-            if (tick_height + 0.0025f < height_n ) //account for the extra height of the tick bar
+            float tickHeight = ((iterator * multiple / max));
+            bool fullBrick = true;
+            if (legoMode) { fullBrick = (iterator % 3 == 0) ? true : false; }
+            bool topTick = (tickHeight > topCheckValue) ? true : false;
+
+      
+
+            if (tickHeight + 0.0025f < height_n  && (fullBrick)) //account for the extra height of the tick bar
             {
                 GameObject tick = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 tick.GetComponent<MeshRenderer>().material = tickMat;
                 Destroy(tick.GetComponent<BoxCollider>());//remove colliders because we don't need/want them
 
                 Transform tick_T = tick.transform;
-                tick.name = Bar.name + " tick_" + i.ToString();
+                tick.name = Bar.name + " tick_" + iterator.ToString();
                 tick_T.localScale = new Vector3(Bar_T.localScale.x + 0.001f, 0.005f, Bar_T.localScale.z + 0.001f);//static height of 0.005f, and adust width to stick out just a bit from bars
-                tick_T.localPosition = new Vector3(Bar_T.localPosition.x, tick_height, Bar_T.localPosition.z);//place at bar and appropriate height
+                tick_T.localPosition = new Vector3(Bar_T.localPosition.x, tickHeight, Bar_T.localPosition.z);//place at bar and appropriate height
                 tick.transform.parent = Bar.transform;
             }
         }
+
+        if (legoMode)
+        {
+            do
+            {
+                iterator--;
+                float tickHeight = ((iterator * multiple / max));
+
+                GameObject tick = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                tick.GetComponent<MeshRenderer>().material = tickMat;
+                Destroy(tick.GetComponent<BoxCollider>());//remove colliders because we don't need/want them
+
+                Transform tick_T = tick.transform;
+                tick.name = Bar.name + " tick_" + iterator.ToString();
+                tick_T.localScale = new Vector3(Bar_T.localScale.x + 0.001f, 0.005f, Bar_T.localScale.z + 0.001f);//static height of 0.005f, and adust width to stick out just a bit from bars
+                tick_T.localPosition = new Vector3(Bar_T.localPosition.x, tickHeight, Bar_T.localPosition.z);//place at bar and appropriate height
+                tick.transform.parent = Bar.transform;
+                
+
+            } while (iterator % 3 != 0);
+        }
+
+
+
     }
 
-    public GameObject CreateBar(GameObject aParent, string name, float height, float width, float xPos, float zPos, float max)
+    public GameObject CreateBar(GameObject aParent, string name, float height, float width, float xPos, float zPos, float max, bool legoMode)
     {
         float yPos = height / 2f; // since unity scales from center, push up by half of height
         GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -189,15 +265,15 @@ public class CreateVis : MonoBehaviour {
         cube.transform.parent = (aParent.transform);
         cube.transform.localScale = new Vector3(width, height, width);
         cube.transform.position = new Vector3(xPos, yPos, zPos);
-        CreateBarTicks(cube, height, max);
+        CreateBarTicks(cube, height, max, legoMode);
 
         return cube;
     }
 
-    public void CreatePaneTicks(float max, bool isZAxis, GameObject aParent)
+    public void CreatePaneTicks(float max, bool isZAxis, GameObject aParent, bool legoMode)
     {
         
-        float multiple = CalculateMultiple(max);
+        float multiple = (legoMode) ? (max/10f) :CalculateMultiple(max);
         float line_Max = max + (multiple - max % multiple); // find next highest multiple
         float numTicks = line_Max / multiple;
 
@@ -242,13 +318,19 @@ public class CreateVis : MonoBehaviour {
         lines.transform.localPosition = new Vector3(0.05f, -0.5f, 0);
     }
 
-    public GameObject CreateChart(List<List<object>> Input, float masterScale, float spaceRatio)
+    public GameObject CreateChart(List<List<object>> Input, float masterScale, float spaceRatio, bool legoMode)
     {
         //get largest number (raw)
         float max = FindMax(Input);
 
         //normalize all values
         List<List<object>> Input_n = Normalize(Input, max); // Normalize the values for correct bar height
+
+        //Set all values to nearest lego brick height
+        if (legoMode)
+        {
+            Input_n = legoHeight(Input_n, max);//normalize lego values
+        }
 
         //Gameobject that holds all objects related to the visualization
         GameObject Vis = new GameObject();
@@ -258,7 +340,7 @@ public class CreateVis : MonoBehaviour {
         CreateBase(Vis.transform);
 
         //Create panes
-        CreatePanes(Vis.transform, max);
+        CreatePanes(Vis.transform, max, legoMode);
 
         //GameObject to hold all the text labels, easier to see in inspector
         GameObject labels = new GameObject();
@@ -315,7 +397,7 @@ public class CreateVis : MonoBehaviour {
                     //Create a bar
                     float height = System.Convert.ToSingle(Input_n[country][year]);
                     string barName = country.ToString() + "," + year.ToString();
-                    GameObject bar = CreateBar(cubeArray, barName, height, barWidth, xAxisPos, zAxisPos, max);
+                    GameObject bar = CreateBar(cubeArray, barName, height, barWidth, xAxisPos, zAxisPos, max, legoMode);
                 }
             }
         }

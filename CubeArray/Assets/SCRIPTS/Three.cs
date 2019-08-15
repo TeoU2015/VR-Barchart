@@ -39,7 +39,7 @@ public class Three : MonoBehaviour
     void MakeRoom()
     {
         //Create the Vis
-        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio);
+        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio, false);
 
         //Final Transformations
         Vis.transform.localScale = new Vector3(8f, 8f, 8f);
@@ -57,7 +57,7 @@ public class Three : MonoBehaviour
     void MakeTable()
     {
         //Create the Vis
-        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio);
+        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio, false);
         GameObject stand = GameObject.CreatePrimitive(PrimitiveType.Cube);
         stand.name = "Stand";
         stand.transform.localPosition = Vector3.zero;
@@ -75,7 +75,7 @@ public class Three : MonoBehaviour
     void MakeHand()
     {
         //Create the Vis
-        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio);
+        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio, false);
 
         //Final Transformations
         Vis.transform.localScale = new Vector3(0.015f, 0.015f, 0.015f);

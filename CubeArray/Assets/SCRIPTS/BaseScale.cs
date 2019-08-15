@@ -30,7 +30,7 @@ public class BaseScale : MonoBehaviour
         List<List<object>> Data = csv.getList(filename); ;
 
         //Create the Vis
-        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio );
+        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio, true );
 
         //Final Transformations
         Vis.transform.localScale = new Vector3(MasterScale, MasterScale, MasterScale);

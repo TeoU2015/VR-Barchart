@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Experiment 2/Table&Markers.unity
+- path: Assets/Scenes/NoVR.unity
   isLoaded: 1
   isActive: 1

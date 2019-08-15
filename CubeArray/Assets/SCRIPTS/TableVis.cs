@@ -8,6 +8,7 @@ public class TableVis : MonoBehaviour
     [HideInInspector]
     public CreateVis createVis;
     [HideInInspector]
+    public bool legoMode = true;
     public ReadCSV csv;
     public QuestionTrigger qt;
     public string filename;
@@ -30,7 +31,7 @@ public class TableVis : MonoBehaviour
         List<List<object>> Data = csv.getList(filename); ;
 
         //Create the Vis
-        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio );
+        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio, legoMode );
 
         //Final Transformations
         Transform stand = GameObject.Find("Stand").transform;

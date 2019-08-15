@@ -12,6 +12,7 @@ public class HandVis : MonoBehaviour
     [HideInInspector]
     public GameObject controller;
     [HideInInspector]
+    public bool legoMode = true;
     public bool HandTied;
     public QuestionTrigger qt;
     public string filename;
@@ -34,7 +35,7 @@ public class HandVis : MonoBehaviour
         List<List<object>> Data = csv.getList(filename); ;
 
         //Create the Vis
-        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio );
+        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio, legoMode );
 
         //Final Transformations
         Vis.transform.localScale = new Vector3(MasterScale, MasterScale, MasterScale);

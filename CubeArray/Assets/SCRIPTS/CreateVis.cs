@@ -295,8 +295,10 @@ public class CreateVis : MonoBehaviour {
             line.transform.parent = lines.transform;
             line.transform.localPosition = new Vector3(0, (i * multiple / max), 0);//normalize and plot
 
+            float textValue = (float)System.Math.Round((i * multiple), 1);
+
             //create the tick value label, some magic numbers to adjust position
-            GameObject valueText = MakeLabel(lineTexts, (i * multiple).ToString());
+            GameObject valueText = MakeLabel(lineTexts, (textValue).ToString());
             valueText.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);//adjust text size
             float yAdjust = 0.02f;//offset text height to center with line
             valueText.GetComponent<MeshRenderer>().material.color = UnityEngine.Color.white;

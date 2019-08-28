@@ -6,7 +6,7 @@ using UnityEngine;
 public class CreateVis : MonoBehaviour {
 
     public Material material;
-    public Material tickMat = Resources.Load<Material>("MATERIALS/Ticks") as Material;
+    public Material tickMat = Resources.Load<Material>("MATERIALS/legoTicks") as Material;
     public Material textMat;
     public Font font;
     public string[] matNames = {   "White", //text color
@@ -137,6 +137,7 @@ public class CreateVis : MonoBehaviour {
         bottom.transform.position = new Vector3((width / 2f), -(height / 2f), (width / 2f));//shuffle the center point by half x,y,z.
     }
 
+
     public void CreatePanes(Transform parent, float max, bool legoMode)
     {
 
@@ -200,20 +201,18 @@ public class CreateVis : MonoBehaviour {
         float multiple = (legoMode) ? max/30f : CalculateMultiple(max);
         float rawHeight = height_n * max;//extract the orignal height from normalized value
         float maxTickValue = rawHeight - (rawHeight % multiple);//calculate the largest value for this bar
-        float numTicks = (maxTickValue / multiple);//calculate number of ticks
+        int numTicks = (int)CustomRound(maxTickValue / multiple);//calculate number of ticks
         float topCheckValue = (rawHeight - (3f * multiple))/max;
         int iterator;
 
-        
-
-        for (iterator = 0; iterator <numTicks; iterator++)
+        for (iterator = 0; iterator <= numTicks; iterator++)
         {
             float tickHeight = ((iterator * multiple / max));
             bool fullBrick = true;
             if (legoMode) { fullBrick = (iterator % 3 == 0) ? true : false; }
             bool topTick = (tickHeight > topCheckValue) ? true : false;
 
-      
+ 
 
             if (tickHeight + 0.0025f < height_n  && (fullBrick)) //account for the extra height of the tick bar
             {
@@ -223,7 +222,7 @@ public class CreateVis : MonoBehaviour {
 
                 Transform tick_T = tick.transform;
                 tick.name = Bar.name + " tick_" + iterator.ToString();
-                tick_T.localScale = new Vector3(Bar_T.localScale.x + 0.001f, 0.005f, Bar_T.localScale.z + 0.001f);//static height of 0.005f, and adust width to stick out just a bit from bars
+                tick_T.localScale = new Vector3(Bar_T.localScale.x + 0.001f, 0.002f, Bar_T.localScale.z + 0.001f);//static height of 0.005f, and adust width to stick out just a bit from bars
                 tick_T.localPosition = new Vector3(Bar_T.localPosition.x, tickHeight, Bar_T.localPosition.z);//place at bar and appropriate height
                 tick.transform.parent = Bar.transform;
             }
@@ -231,6 +230,7 @@ public class CreateVis : MonoBehaviour {
 
         if (legoMode)
         {
+            iterator = numTicks;
             do
             {
                 iterator--;
@@ -241,11 +241,10 @@ public class CreateVis : MonoBehaviour {
                 Destroy(tick.GetComponent<BoxCollider>());//remove colliders because we don't need/want them
 
                 Transform tick_T = tick.transform;
-                tick.name = Bar.name + " tick_" + iterator.ToString();
-                tick_T.localScale = new Vector3(Bar_T.localScale.x + 0.001f, 0.005f, Bar_T.localScale.z + 0.001f);//static height of 0.005f, and adust width to stick out just a bit from bars
+                tick.name = Bar.name + "legotick_" + iterator.ToString();
+                tick_T.localScale = new Vector3(Bar_T.localScale.x + 0.001f, 0.002f, Bar_T.localScale.z + 0.001f);//static height of 0.005f, and adust width to stick out just a bit from bars
                 tick_T.localPosition = new Vector3(Bar_T.localPosition.x, tickHeight, Bar_T.localPosition.z);//place at bar and appropriate height
                 tick.transform.parent = Bar.transform;
-                
 
             } while (iterator % 3 != 0);
         }
@@ -274,7 +273,7 @@ public class CreateVis : MonoBehaviour {
     {
         
         float multiple = (legoMode) ? (max/10f) :CalculateMultiple(max);
-        float line_Max = max + (multiple - max % multiple); // find next highest multiple
+        float line_Max = (legoMode) ? max : max + (multiple - max % multiple); // find next highest multiple
         float numTicks = line_Max / multiple;
 
         //Create group for lines
@@ -301,18 +300,21 @@ public class CreateVis : MonoBehaviour {
             GameObject valueText = MakeLabel(lineTexts, (textValue).ToString());
             valueText.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);//adjust text size
             float yAdjust = 0.02f;//offset text height to center with line
-            valueText.GetComponent<MeshRenderer>().material.color = UnityEngine.Color.white;
+            if (!legoMode)
+            {
+                valueText.GetComponent<MeshRenderer>().material.color = UnityEngine.Color.white;
+            }
 
             if (isZAxis)
             {
                 valueText.transform.rotation = Quaternion.Euler(0, 180, 0);
-                valueText.transform.localPosition = new Vector3(-0.48f, ((i * multiple / max)) + yAdjust, 0);
+                valueText.transform.localPosition = new Vector3(-.48f, ((i * multiple / max)) + yAdjust, 0);
                 //-0.48 is magic x axis adjustment number, for good distance from line
             }
             else
             {
                 valueText.transform.rotation = Quaternion.Euler(0, 0, 0);
-                valueText.transform.localPosition = new Vector3(-0.52f, ((i * multiple / max)) + yAdjust, 0);
+                valueText.transform.localPosition = new Vector3(-0.55f, ((i * multiple / max)) + yAdjust, 0);
                 //-0.52 is magic z axis adjustment number, differs slightly from Z pane because of letter orientation
             }
         }
@@ -503,4 +505,3 @@ public class CreateVis : MonoBehaviour {
         return Vis;
     }
 }
-

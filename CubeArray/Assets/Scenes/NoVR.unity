@@ -240,11 +240,8 @@ MonoBehaviour:
   createVis: {fileID: 0}
   csv: {fileID: 0}
   qt: {fileID: 0}
-  filename: hiv.csv
-  scaleWL: 0.3
-  MasterScale: 7.9
-  barWidth: 5
-  spaceWidth: 2
+  filename: education.csv
+  MasterScale: 1
   spaceRatio: 1
 --- !u!4 &1116210256
 Transform:

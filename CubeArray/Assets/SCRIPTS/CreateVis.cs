@@ -197,10 +197,13 @@ public class CreateVis : MonoBehaviour {
 
     public void CreateBarTicks(GameObject Bar, float height_n, float max, bool legoMode)
     {
+        //not sure why I revert back to original heights from normalized
+        //been to long to remember if that was important or not...
         Transform Bar_T = Bar.transform;
+        float tickYScale = 0.002f;
         float multiple = (legoMode) ? max/30f : CalculateMultiple(max);
         float rawHeight = height_n * max;//extract the orignal height from normalized value
-        float maxTickValue = rawHeight - (rawHeight % multiple);//calculate the largest value for this bar
+        float maxTickValue = (legoMode) ? rawHeight : ( rawHeight - ( rawHeight % multiple ) );//calculate the largest value for this bar
         int numTicks = (int)CustomRound(maxTickValue / multiple);//calculate number of ticks
         float topCheckValue = (rawHeight - (3f * multiple))/max;
         int iterator;
@@ -212,9 +215,9 @@ public class CreateVis : MonoBehaviour {
             if (legoMode) { fullBrick = (iterator % 3 == 0) ? true : false; }
             bool topTick = (tickHeight > topCheckValue) ? true : false;
 
- 
+            //tickHeight + 0.0025f < height_n  && 
 
-            if (tickHeight + 0.0025f < height_n  && (fullBrick)) //account for the extra height of the tick bar
+            if (tickHeight + 0.0025f < height_n && (fullBrick)) //account for the extra height of the tick bar
             {
                 GameObject tick = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 tick.GetComponent<MeshRenderer>().material = tickMat;
@@ -222,7 +225,7 @@ public class CreateVis : MonoBehaviour {
 
                 Transform tick_T = tick.transform;
                 tick.name = Bar.name + " tick_" + iterator.ToString();
-                tick_T.localScale = new Vector3(Bar_T.localScale.x + 0.001f, 0.002f, Bar_T.localScale.z + 0.001f);//static height of 0.005f, and adust width to stick out just a bit from bars
+                tick_T.localScale = new Vector3(Bar_T.localScale.x + 0.001f, tickYScale, Bar_T.localScale.z + 0.001f);//static height of 0.005f, and adust width to stick out just a bit from bars
                 tick_T.localPosition = new Vector3(Bar_T.localPosition.x, tickHeight, Bar_T.localPosition.z);//place at bar and appropriate height
                 tick.transform.parent = Bar.transform;
             }
@@ -242,7 +245,7 @@ public class CreateVis : MonoBehaviour {
 
                 Transform tick_T = tick.transform;
                 tick.name = Bar.name + "legotick_" + iterator.ToString();
-                tick_T.localScale = new Vector3(Bar_T.localScale.x + 0.001f, 0.002f, Bar_T.localScale.z + 0.001f);//static height of 0.005f, and adust width to stick out just a bit from bars
+                tick_T.localScale = new Vector3(Bar_T.localScale.x + 0.001f, tickYScale, Bar_T.localScale.z + 0.001f);//static height of 0.005f, and adust width to stick out just a bit from bars
                 tick_T.localPosition = new Vector3(Bar_T.localPosition.x, tickHeight, Bar_T.localPosition.z);//place at bar and appropriate height
                 tick.transform.parent = Bar.transform;
 
@@ -334,6 +337,7 @@ public class CreateVis : MonoBehaviour {
         if (legoMode)
         {
             Input_n = legoHeight(Input_n, max);//normalize lego values
+            Debug.Log("Brick Interval: " + (max / 30f));
         }
 
         //Gameobject that holds all objects related to the visualization
@@ -386,7 +390,10 @@ public class CreateVis : MonoBehaviour {
                 float xAxisPos = (1f / (maxLen)) * country;
                 float zAxisPos = (1f / (maxLen)) * year;//12???????
 
-                if (country == 0 && year != 0)
+                if(country==0 && year == 0) {
+                    //nothing
+                }
+                else if (country == 0)
                 {
                     //Make the year labels
                     CreateAxisLabels(yearLabels, System.Convert.ToString(Input[country][year]), zAxisPos, true);
@@ -400,8 +407,11 @@ public class CreateVis : MonoBehaviour {
                 {
                     //Create a bar
                     float height = System.Convert.ToSingle(Input_n[country][year]);
-                    string barName = country.ToString() + "," + year.ToString();
-                    GameObject bar = CreateBar(cubeArray, barName, height, barWidth, xAxisPos, zAxisPos, max, legoMode);
+                    string barName = System.Convert.ToString(Input[country][0]) + ", " + System.Convert.ToString(Input[0][year]);
+                    if (height > 0)
+                    {
+                        GameObject bar = CreateBar(cubeArray, barName, height, barWidth, xAxisPos, zAxisPos, max, legoMode);
+                    }
                 }
             }
         }

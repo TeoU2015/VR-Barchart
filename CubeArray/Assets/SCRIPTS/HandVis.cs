@@ -39,7 +39,7 @@ public class HandVis : MonoBehaviour
 
         //Final Transformations
         Vis.transform.localScale = new Vector3(MasterScale, MasterScale, MasterScale);
-        Vis.transform.position = new Vector3(0.5f, 0.3f, 1.2f);
+        Vis.transform.position = (legoMode) ? Vis.transform.position : new Vector3(0.5f, 0.3f, 1.2f);
     }
 
     void Start()
@@ -66,8 +66,8 @@ public class HandVis : MonoBehaviour
             {
                 GameObject HandVis = GameObject.Find("Viz");
 
-                HandVis.transform.localPosition = new Vector3(0.01f, 0.15f, 0.01f);
-                HandVis.transform.localRotation = Quaternion.Euler(33.4f, -65.2f, -51.6f);
+                HandVis.transform.localPosition = (legoMode) ? new Vector3(-0.055f, 0.11f, -0.055f) : new Vector3(0.01f, 0.15f, 0.01f);
+                HandVis.transform.localRotation = (legoMode) ? HandVis.transform.localRotation : Quaternion.Euler(33.4f, -65.2f, -51.6f);
                 HandVis.transform.parent = controller.transform;
                 HandTied = true;
             }

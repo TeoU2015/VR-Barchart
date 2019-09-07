@@ -10,11 +10,11 @@ public class CreateVis : MonoBehaviour {
     public Material textMat;
     public Font font;
     public string[] matNames = {   "White", //text color
-                                    "Blue", "Blue Light",
-                                    "Green", "Green Light",
-                                    "Orange", "Orange Light",
-                                    "Purple", "Purple Light",
-                                    "Red", "Red Light" };
+                                    "Orange Light", "Orange",
+                                    "Red Light", "Red",
+                                    "Purple Light", "Purple",
+                                    "Blue Light", "Blue",
+                                    "Green Light", "Green"};
 
     public Material LoadMaterial(int num)
     {
@@ -129,7 +129,7 @@ public class CreateVis : MonoBehaviour {
     public void CreateBase(Transform parent)
     {
         float width = 1f;
-        float height = 0.3f;
+        float height = 0.35f;
         GameObject bottom = GameObject.CreatePrimitive(PrimitiveType.Cube);
         bottom.name = "Base";
         bottom.transform.parent = parent;
@@ -169,7 +169,7 @@ public class CreateVis : MonoBehaviour {
         Text.name = label;
         Text.GetComponent<TextMesh>().text = label;
         Text.GetComponent<TextMesh>().characterSize = 0.1f;
-        Text.GetComponent<TextMesh>().fontSize = 45;
+        Text.GetComponent<TextMesh>().fontSize = 50;
         Text.GetComponent<TextMesh>().color = UnityEngine.Color.black;
         Text.transform.parent = (aParent.transform);
         Text.transform.localScale = new Vector3(0.1f, 0.1f, 1f);

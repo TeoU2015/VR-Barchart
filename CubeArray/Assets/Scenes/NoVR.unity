@@ -241,8 +241,8 @@ MonoBehaviour:
   csv: {fileID: 0}
   qt: {fileID: 0}
   filename: education.csv
-  MasterScale: 1
-  spaceRatio: 1
+  MasterScale: 0.11
+  spaceRatio: 2.5
 --- !u!4 &1116210256
 Transform:
   m_ObjectHideFlags: 0

@@ -92,7 +92,7 @@ public class CreateVis : MonoBehaviour {
                     float currentValue = System.Convert.ToSingle(Input[i][j]);
                     float temp = currentValue / brickHeight;
                     //round height to nearest 1/3rd lego brick
-                    float brickNum = CustomRound(temp);
+                    float brickNum = CustomRound(temp)+1f;
                     row.Add( (brickNum * brickHeight) );
                 }
             }
@@ -129,7 +129,7 @@ public class CreateVis : MonoBehaviour {
     public void CreateBase(Transform parent)
     {
         float width = 1f;
-        float height = 0.35f;
+        float height = 0.45f;
         GameObject bottom = GameObject.CreatePrimitive(PrimitiveType.Cube);
         bottom.name = "Base";
         bottom.transform.parent = parent;

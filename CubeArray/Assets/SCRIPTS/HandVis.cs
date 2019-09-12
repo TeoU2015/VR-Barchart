@@ -15,7 +15,8 @@ public class HandVis : MonoBehaviour
     public bool legoMode = true;
     public bool HandTied;
     public QuestionTrigger qt;
-    public string filename;
+    private string filename;
+    public StudyTracker Tracker;
 
     [Range(0.01f, 100f)]
     public float MasterScale = 0.3f;
@@ -26,6 +27,10 @@ public class HandVis : MonoBehaviour
     {
         //Instantiate other scripts
         createVis = new CreateVis();
+
+        //get filename
+        filename = Tracker.filename;
+        Debug.Log(filename);
 
         //initialize questions
         check_qt();
@@ -44,7 +49,7 @@ public class HandVis : MonoBehaviour
 
     void Start()
     {
-
+        
     }
 
     void check_qt()
@@ -66,7 +71,7 @@ public class HandVis : MonoBehaviour
             {
                 GameObject HandVis = GameObject.Find("Viz");
 
-                HandVis.transform.localPosition = (legoMode) ? new Vector3(-0.055f, 0.11f, -0.055f) : new Vector3(0.01f, 0.15f, 0.01f);
+                HandVis.transform.localPosition = (legoMode) ? new Vector3(-0.055f, -0.011f, -0.055f) : new Vector3(0.01f, 0.15f, 0.01f);
                 HandVis.transform.localRotation = (legoMode) ? HandVis.transform.localRotation : Quaternion.Euler(33.4f, -65.2f, -51.6f);
                 HandVis.transform.parent = controller.transform;
                 HandTied = true;

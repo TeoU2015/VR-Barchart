@@ -9,7 +9,7 @@ public class ReadCSV : MonoBehaviour {
     public List<List<object>> getList (string filename) {
 
         List<List<object>> Data = new List<List<object>>();
-        string path = "Assets/CSV/" + filename;
+        string path = "Assets/CSV/" + filename + ".csv";
         Debug.Log(path);
         using (TextFieldParser parser = new TextFieldParser(path))
         {

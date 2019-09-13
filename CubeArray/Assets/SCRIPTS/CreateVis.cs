@@ -168,8 +168,8 @@ public class CreateVis : MonoBehaviour {
         GameObject Text = Instantiate(Resources.Load("Text")) as GameObject;
         Text.name = label;
         Text.GetComponent<TextMesh>().text = label;
-        Text.GetComponent<TextMesh>().characterSize = 0.1f;
-        Text.GetComponent<TextMesh>().fontSize = 50;
+        Text.GetComponent<TextMesh>().characterSize = 0.2f;
+        Text.GetComponent<TextMesh>().fontSize = 40;
         Text.GetComponent<TextMesh>().color = UnityEngine.Color.black;
         Text.transform.parent = (aParent.transform);
         Text.transform.localScale = new Vector3(0.1f, 0.1f, 1f);

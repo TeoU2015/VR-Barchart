@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StudyTracker : MonoBehaviour {
-    public string filename="co2.csv";
+    public string filename;
     public int chartNumber;
     public string participantID;
     public GameObject Manager;

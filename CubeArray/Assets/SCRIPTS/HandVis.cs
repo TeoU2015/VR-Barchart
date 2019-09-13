@@ -30,7 +30,6 @@ public class HandVis : MonoBehaviour
 
         //get filename
         filename = Tracker.filename;
-        Debug.Log(filename);
 
         //initialize questions
         check_qt();

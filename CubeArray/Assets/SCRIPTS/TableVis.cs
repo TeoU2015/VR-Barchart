@@ -11,8 +11,9 @@ public class TableVis : MonoBehaviour
     public bool legoMode = true;
     public ReadCSV csv;
     public QuestionTrigger qt;
-    public string filename;
-  
+    private string filename;
+    public StudyTracker Tracker;
+
     [Range(0.01f, 100f)]
     public float MasterScale = 0.8f;
     [Range(0f, 100f)]
@@ -23,8 +24,14 @@ public class TableVis : MonoBehaviour
         //Instantiate other scripts
         createVis = new CreateVis();
 
+        //get filename
+        filename = Tracker.filename;
+
         //Set filename for correct questions
         //qt.setFilename(filename);
+
+        //initialize questions
+        check_qt();
 
         //read and get CSV values
         csv = new ReadCSV();
@@ -38,6 +45,14 @@ public class TableVis : MonoBehaviour
         Vis.transform.localScale = new Vector3(MasterScale, MasterScale, MasterScale);
         Vis.transform.localPosition = new Vector3(-MasterScale/2f, stand.localScale.y/2f, -MasterScale/2f);//magic numbers galore! place in center of VR space
         Vis.transform.parent = stand; //Attach to Pillar
+    }
+
+    void check_qt()
+    {
+        if (qt != null)
+        {
+            qt.setQuestionTrigger(filename);
+        }
     }
 
     void Start()

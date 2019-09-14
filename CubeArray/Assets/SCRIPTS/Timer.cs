@@ -13,11 +13,9 @@ public class Timer : MonoBehaviour {
     private float stopTime;
     private int questionCount = 0;
     private StudyTracker tracker;
-    Scene scene; 
 
     // Use this for initializationd
     void Start () {
-        scene = SceneManager.GetActiveScene();
         tracker = gameObject.GetComponent<StudyTracker>();
         dataName = tracker.filename;
 
@@ -60,7 +58,7 @@ public class Timer : MonoBehaviour {
 
             System.IO.File.WriteAllText(timeFile, header);
 
-        string output = string.Format(format, tracker.participantID, scene.name, dataName, tracker.chartNumber, questionCount,  (((tracker.chartNumber-1)*6)+questionCount) , elapsedTime);
+        string output = string.Format(format, tracker.participantID, tracker.scene.name, dataName, tracker.chartNumber, questionCount,  (((tracker.chartNumber-1)*6)+questionCount) , elapsedTime);
 
         System.IO.File.AppendAllText(timeFile, output);
     }

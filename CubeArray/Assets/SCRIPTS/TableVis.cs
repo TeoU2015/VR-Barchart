@@ -21,6 +21,20 @@ public class TableVis : MonoBehaviour
 
     void Awake()
     {
+
+    }
+
+    void check_qt()
+    {
+        if (qt != null)
+        {
+            Debug.Log("check_qt" + filename);
+            qt.setQuestionTrigger(filename);
+        }
+    }
+
+    void Start()
+    {
         //Instantiate other scripts
         createVis = new CreateVis();
 
@@ -38,26 +52,13 @@ public class TableVis : MonoBehaviour
         List<List<object>> Data = csv.getList(filename); ;
 
         //Create the Vis
-        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio, legoMode );
+        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio, legoMode);
 
         //Final Transformations
         Transform stand = GameObject.Find("Stand").transform;
         Vis.transform.localScale = new Vector3(MasterScale, MasterScale, MasterScale);
-        Vis.transform.localPosition = new Vector3(-MasterScale/2f, stand.localScale.y/2f, -MasterScale/2f);//magic numbers galore! place in center of VR space
+        Vis.transform.localPosition = new Vector3(-MasterScale / 2f, stand.localScale.y / 2f, -MasterScale / 2f);//magic numbers galore! place in center of VR space
         Vis.transform.parent = stand; //Attach to Pillar
-    }
-
-    void check_qt()
-    {
-        if (qt != null)
-        {
-            qt.setQuestionTrigger(filename);
-        }
-    }
-
-    void Start()
-    {
-
     }
 
     // Update is called once per frame

@@ -25,6 +25,11 @@ public class HandVis : MonoBehaviour
 
     void Awake()
     {
+        
+    }
+
+    void Start()
+    {
         //Instantiate other scripts
         createVis = new CreateVis();
 
@@ -39,22 +44,18 @@ public class HandVis : MonoBehaviour
         List<List<object>> Data = csv.getList(filename); ;
 
         //Create the Vis
-        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio, legoMode );
+        GameObject Vis = createVis.CreateChart(Data, MasterScale, spaceRatio, legoMode);
 
         //Final Transformations
         Vis.transform.localScale = new Vector3(MasterScale, MasterScale, MasterScale);
         Vis.transform.position = (legoMode) ? Vis.transform.position : new Vector3(0.5f, 0.3f, 1.2f);
     }
 
-    void Start()
-    {
-        
-    }
-
     void check_qt()
     {
         if (qt != null)
         {
+            Debug.Log("check_qt" + filename);
             qt.setQuestionTrigger(filename);
         }
     }

@@ -27,7 +27,7 @@ public class Questions : MonoBehaviour {
             "\nof Estonia?" +
             "\n(min, max) ",
 
-        "For 1959" +
+        "For 2002" +
             "\nSort the countries" +
             "\nin Ascending order",
 
@@ -187,12 +187,12 @@ public class Questions : MonoBehaviour {
             "\nof Suriname?" +
             "\n(min, max)",
         "What is the range" +
-            "\nof Chad?" +
+            "\nof Botswana?" +
             "\n(min, max)",
         "For 1974" +
 		"\nSort the countries" +
 		"\nin Ascending order",
-        "For 1966" +
+        "For 1978" +
         "\nSort the countries" +
         "\nin Ascending order",
         "Consider these 3" +
@@ -273,7 +273,7 @@ public class Questions : MonoBehaviour {
         "What is the range" +
             "\nof Switzerland?" +
             "\n(min, max)",
-        "For 1954" +
+        "For 1979" +
         "\nSort the countries" +
         "\nin Ascending order",
         "For 1959" +

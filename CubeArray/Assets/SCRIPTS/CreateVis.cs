@@ -92,7 +92,8 @@ public class CreateVis : MonoBehaviour {
                     float currentValue = System.Convert.ToSingle(Input[i][j]);
                     float temp = currentValue / brickHeight;
                     //round height to nearest 1/3rd lego brick
-                    float brickNum = CustomRound(temp)+1f;
+                    float brickNum = CustomRound(temp);
+                    if (brickNum == 0) { brickNum = 1f; }
                     row.Add( (brickNum * brickHeight) );
                 }
             }
@@ -183,15 +184,16 @@ public class CreateVis : MonoBehaviour {
         //because I'm not sure on how font size and game size scale,
         //Here's some magic number to line up the labels! (sorry)
         GameObject aLabel = MakeLabel(aParent, label);
+        float posAdjust = 0.03f;
         if (isZaxis)
         {
             aLabel.transform.rotation = Quaternion.Euler(0, 90, 90);
-            aLabel.transform.localPosition = new Vector3(-0.01f, -0.11f, position+0.02f); // -0.05 -- stops z fighting, 0.85f -- currently magic number
+            aLabel.transform.localPosition = new Vector3(-0.01f, -0.19f, position+posAdjust); // -0.05 -- stops z fighting, 0.85f -- currently magic number
         }
         else
         {
             aLabel.transform.rotation = Quaternion.Euler(0, 0, -90);
-            aLabel.transform.position = new Vector3(position+0.02f, -0.02f, -0.01f);// -0.05 -- stops z fighting, 0.95f == currently magic number, offset y by 0.1 because it looks nice
+            aLabel.transform.position = new Vector3(position+posAdjust, -0.02f, -0.01f);// -0.05 -- stops z fighting, 0.95f == currently magic number, offset y by 0.1 because it looks nice
         }    
     }
 
@@ -302,7 +304,7 @@ public class CreateVis : MonoBehaviour {
             //create the tick value label, some magic numbers to adjust position
             GameObject valueText = MakeLabel(lineTexts, (textValue).ToString());
             valueText.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);//adjust text size
-            float yAdjust = 0.02f;//offset text height to center with line
+            float yAdjust = 0.04f;//offset text height to center with line
             if (!legoMode)
             {
                 valueText.GetComponent<MeshRenderer>().material.color = UnityEngine.Color.white;
@@ -317,7 +319,7 @@ public class CreateVis : MonoBehaviour {
             else
             {
                 valueText.transform.rotation = Quaternion.Euler(0, 0, 0);
-                valueText.transform.localPosition = new Vector3(-0.55f, ((i * multiple / max)) + yAdjust, 0);
+                valueText.transform.localPosition = new Vector3(-0.6f, ((i * multiple / max)) + yAdjust, 0);
                 //-0.52 is magic z axis adjustment number, differs slightly from Z pane because of letter orientation
             }
         }

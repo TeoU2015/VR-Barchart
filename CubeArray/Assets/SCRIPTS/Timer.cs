@@ -48,7 +48,7 @@ public class Timer : MonoBehaviour {
     void logDataFull()
     {
 
-        string header = "Participant ID,Chart Type,Data Name, Chart Number, Question number, Task number, Time\n";
+        string header = "Participant ID,Chart Type,Data Name,Chart Number,Question number,Task number,Time\n";
 
         string format = "{0},{1},{2},{3},{4},{5},{6}\n";
 

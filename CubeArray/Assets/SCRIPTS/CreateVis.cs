@@ -93,7 +93,6 @@ public class CreateVis : MonoBehaviour {
                     float temp = currentValue / brickHeight;
                     //round height to nearest 1/3rd lego brick
                     float brickNum = CustomRound(temp);
-                    if (brickNum == 0) { brickNum = 1f; }
                     row.Add( (brickNum * brickHeight) );
                 }
             }
